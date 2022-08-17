@@ -8,7 +8,5 @@ contract Migrations {
             "This function is restricted to the contact's owner");
         _;
     }
-    function Migrations(){
 
-    }
 }
