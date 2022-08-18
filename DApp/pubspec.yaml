@@ -15,13 +15,13 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  flutter_web3: ^2.1.9
+  web3dart: ^2.4.1
   flutter_bloc:
   http: ^0.13.5
   get: ^4.6.5
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+#  flutter_test:
+#    sdk: flutter
 
 
   flutter_lints: ^1.0.0
