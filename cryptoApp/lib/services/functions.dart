@@ -13,14 +13,18 @@ class DataContract extends ChangeNotifier {
   late DeployedContract _deployedContract;
   late Web3Client _web3client;
   late EthPrivateKey _creds;
+  late ContractFunction ethFunction;
+
   DataContract() {
     init();
   }
+
   Future<void> init() async {
     _web3client = Web3Client(
       PrivateKeys.rpcUrl,
       http.Client(),
     );
+    loadContract();
     getCredentials();
   }
 
@@ -32,12 +36,23 @@ class DataContract extends ChangeNotifier {
         EthereumAddress.fromHex(jsonABI['networks']["5777"]["address"]);
     _deployedContract = DeployedContract(_abiCode, _contractAddress);
   }
+
   Future<void> getCredentials() async {
-    _creds = EthPrivateKey.fromHex(  PrivateKeys.private_key);
+    _creds = EthPrivateKey.fromHex(PrivateKeys.private_key);
   }
 
   Future<void> callFunction({
     required String funcName,
     required List<dynamic> args,
-  }) async {}
+  }) async {
+    ethFunction = _deployedContract.function(funcName);
+    await _web3client.sendTransaction(
+      _creds,
+      Transaction.callContract(
+        contract: _deployedContract,
+        function: ethFunction,
+        parameters: args,
+      ),
+    );
+  }
 }
