@@ -41,12 +41,12 @@ class DataContract extends ChangeNotifier {
     _creds = EthPrivateKey.fromHex(PrivateKeys.private_key);
   }
 
-  Future<void> callFunction({
+  Future<String> callFunction({
     required String funcName,
     required List<dynamic> args,
   }) async {
     ethFunction = _deployedContract.function(funcName);
-    await _web3client.sendTransaction(
+    final result = await _web3client.sendTransaction(
       _creds,
       Transaction.callContract(
         contract: _deployedContract,
@@ -54,5 +54,11 @@ class DataContract extends ChangeNotifier {
         parameters: args,
       ),
     );
+    return result;
+  }
+
+  Future<String> startElection(String name) async {
+    var response = await callFunction(funcName: 'startElection', args: [name]);
+    return '';
   }
 }
