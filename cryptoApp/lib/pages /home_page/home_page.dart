@@ -1,17 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
+import 'package:solidity_tutorial/utils/constans.dart';
+import 'package:web3dart/web3dart.dart';
 
 import '../../services/notes_service.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Client? httpClient;
+  Web3Client? ethClient;
+  TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {
+    httpClient = Client();
+    ethClient = Web3Client(PrivateKeys.rpcUrl, httpClient!);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.white24,
-      body: Center(
-        child: Text('Initial view in binance api',style: TextStyle(color: Colors.white,fontSize: 30),),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Start Election'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: controller,
+              decoration: const InputDecoration(
+                filled: true,
+                hintText: 'Enter election name',
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: 45,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const Text('Start Election'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

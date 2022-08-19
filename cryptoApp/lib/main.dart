@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:solidity_tutorial/pages%20/home_page/home_page.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';
 import 'slider.dart';
@@ -24,8 +25,11 @@ class MyApp extends StatelessWidget {
             backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
           ),
         ),
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+        ),
       ),
-      home: Container(),
+      home: const HomePage(),
     );
   }
 }
