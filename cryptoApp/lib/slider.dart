@@ -33,30 +33,30 @@ class _SliderWidgetState extends State<SliderWidget> {
           ? double.infinity
           : (this.widget.sliderHeight) * 5.5,
       height: (this.widget.sliderHeight),
-      decoration: new BoxDecoration(
-        borderRadius: new BorderRadius.all(
+      decoration:  BoxDecoration(
+        borderRadius: BorderRadius.all(
           Radius.circular((this.widget.sliderHeight * .3)),
         ),
-        gradient: new LinearGradient(
-            colors: [
-              const Color(0xFF7fbfff),
-              const Color(0xFF0080ff),
+        gradient: const LinearGradient(
+            colors:  [
+              Color(0xFF7fbfff),
+              Color(0xFF0080ff),
             ],
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(1.0, 1.00),
+            begin: FractionalOffset(0.0, 0.0),
+            end: FractionalOffset(1.0, 1.00),
             stops: [0.0, 1.0],
             tileMode: TileMode.clamp),
       ),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(this.widget.sliderHeight * paddingFactor,
-            2, this.widget.sliderHeight * paddingFactor, 2),
+        padding: EdgeInsets.fromLTRB(widget.sliderHeight * paddingFactor,
+            2, widget.sliderHeight * paddingFactor, 2),
         child: Row(
           children: <Widget>[
             Text(
-              '${this.widget.min}',
+              '${widget.min}',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: this.widget.sliderHeight * .3,
+                fontSize: widget.sliderHeight * .3,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
               ),
@@ -149,8 +149,8 @@ class CustomSliderThumbCircle extends SliderComponentShape {
       ..color = Colors.white //Thumb Background Color
       ..style = PaintingStyle.fill;
 
-    TextSpan span = new TextSpan(
-      style: new TextStyle(
+    TextSpan span = TextSpan(
+      style: TextStyle(
         fontSize: thumbRadius * .8,
         fontWeight: FontWeight.w700,
         color: sliderTheme!.thumbColor, //Text Color of Value on Thumb
@@ -158,7 +158,7 @@ class CustomSliderThumbCircle extends SliderComponentShape {
       text: getValue(value!),
     );
 
-    TextPainter tp = new TextPainter(
+    TextPainter tp = TextPainter(
         text: span,
         textAlign: TextAlign.center,
         textDirection: TextDirection.ltr);
