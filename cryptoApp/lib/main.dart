@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:velocity_x/velocity_x.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'slider.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DotEnv().load(fileName: '.env');
   runApp(MyApp());
 }
 
@@ -23,13 +21,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage("TreeCoin"),
+      home: Container(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
   MyHomePage(this.title);
+
   final String title;
 
   @override
@@ -41,7 +40,8 @@ class _MyHomePageState extends State<MyHomePage> {
   late Web3Client ethClient;
   bool data = false;
   int myAmount = 0;
-  var privateKey = DotEnv().env['PRIVATE'];
+
+  //var privateKey = DotEnv().env['PRIVATE'];
 
   final myAddress = "0x25C20f433DC1aD3fF303355ed7209C3BaD968B67";
   late String txHash;
@@ -79,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return result;
   }
 
+
   //particular method for fetching the balance
   Future<void> getBalance(String targetAddress) async {
     //EthereumAddress address = EthereumAddress.fromHex(targetAddress);
@@ -90,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<String> submit(String functionName, List<dynamic> args) async {
-    EthPrivateKey credentials = EthPrivateKey.fromHex(privateKey!);
+    EthPrivateKey credentials = EthPrivateKey.fromHex('privateKey');
 
     DeployedContract contract = await loadContract();
     final ethFunction = contract.function(functionName);
@@ -128,8 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Vx.gray300,
-      body: ZStack([
+      body: Stack(children: [
         VxBox()
             .blue600
             .size(context.screenWidth, context.percentHeight * 30)
@@ -168,7 +168,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextButton.styleFrom(
                   primary: Colors.blue,
                   backgroundColor: Colors.blue,
-                  shape:   RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.5)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7.5)),
                 ),
                 icon: const Icon(
                   Icons.refresh,
@@ -181,7 +182,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextButton.styleFrom(
                   primary: Colors.green,
                   backgroundColor: Colors.green,
-                  shape:   RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.5)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7.5)),
                 ),
                 icon: const Icon(
                   Icons.call_made_outlined,
@@ -194,7 +196,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: TextButton.styleFrom(
                   primary: Colors.red,
                   backgroundColor: Colors.red,
-                  shape:   RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.5)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7.5)),
                 ),
                 icon: const Icon(
                   Icons.call_received_outlined,
