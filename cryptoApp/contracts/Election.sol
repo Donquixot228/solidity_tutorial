@@ -19,7 +19,7 @@ contract Election {
     string public electionName;
     mapping(address => Voter) public voters;
     Candidate[] public candidates;
-    uint public totalsVotes;
+    uint public totalVotes;
 
 
     modifier ownerOnly(){
@@ -48,7 +48,7 @@ contract Election {
 
     function vote(uint candidateIndex) public {
         require(!voters[msg.sender].voted);
-        require(voters[msg.sender].authorised);
+        require(voters[msg.sender].authorized);
         voters[msg.sender].whom = candidateIndex;
         voters[msg.sender].voted = true;
 
