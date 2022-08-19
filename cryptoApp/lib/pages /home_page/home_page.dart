@@ -3,6 +3,7 @@ import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:solidity_tutorial/utils/constans.dart';
 import 'package:web3dart/web3dart.dart';
+import 'package:http/http.dart' as http;
 
 import '../../services/notes_service.dart';
 
@@ -14,14 +15,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Client? httpClient;
   Web3Client? ethClient;
   TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
-    httpClient = Client();
-    ethClient = Web3Client(PrivateKeys.rpcUrl, httpClient!);
+    ethClient = Web3Client(
+      PrivateKeys.rpcUrl,
+      http.Client(),
+    );
     super.initState();
   }
 

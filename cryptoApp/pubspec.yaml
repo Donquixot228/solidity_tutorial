@@ -19,6 +19,7 @@ dependencies:
   flutter_bloc:
   http: ^0.13.5
   get: ^4.6.5
+  provider:
   wallet_connect: ^1.0.2
   #binance_chain: ^0.0.6+1
 
