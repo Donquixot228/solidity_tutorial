@@ -3,6 +3,7 @@ import 'package:bip39/bip39.dart' as bip39;
 
 import 'package:binance_chain/binance_chain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/utils.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
@@ -23,18 +24,21 @@ class _HomePageState extends State<HomePage> {
   var wallet;
 
   @override
-   void initState() {
-    // TODO: implement initState
-      testnetEnv = BinanceEnvironment.getProductionEnv();
-      httpClient = HttpApiClient(env: testnetEnv);
-      wallet=Wallet.fromMnemonicPhrase('target feature brush era owner cruise fever soft current whisper radio accident', testnetEnv);
-     super.initState();
+  void initState() {
+    testnetEnv = BinanceEnvironment.getProductionEnv();
+    httpClient = HttpApiClient(env: testnetEnv);
+    wallet = Wallet.fromMnemonicPhrase(
+        'target feature brush era owner cruise fever soft current whisper radio accident',
+        testnetEnv);
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    print(wallet.address);
-    print(wallet.privateKey);
-    print(wallet.publicKey);    return Scaffold(
+    log(wallet.address);
+    log(wallet.privateKey);
+    log(wallet.publicKey);
+    return Scaffold(
       appBar: AppBar(
         title: const Text('Start Election'),
       ),
@@ -61,11 +65,6 @@ class _HomePageState extends State<HomePage> {
               height: 45,
               child: ElevatedButton(
                 onPressed: () {
-                  // context
-                  //     .read<SilidityLogicCubit>()
-                  //     .startElection(controller.text);
-                  //
-                  // Navigator.push(context, ElectionInfo.route());
                 },
                 child: const Text('Start Election'),
               ),
