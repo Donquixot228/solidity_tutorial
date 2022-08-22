@@ -109,13 +109,12 @@ class ElectionInfo extends StatelessWidget {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        context
-                            .read<SilidityLogicCubit>()
-                            .authorizeVoter(authorizeVoterController.text);
-                      },
-                      child: const Text('Add Voter'),
-                    ),
+                        onPressed: () {
+                          context
+                              .read<SilidityLogicCubit>()
+                              .authorizeVoter(authorizeVoterController.text);
+                        },
+                        child: const Text('Add Voter'))
                   ],
                 ),
                 const Divider(),
@@ -131,35 +130,33 @@ class ElectionInfo extends StatelessWidget {
                         children: [
                           for (int i = 0; i < snapshot.data![0].toInt(); i++)
                             FutureBuilder<List>(
-                              future: context
-                                  .read<SilidityLogicCubit>()
-                                  .candidateInfo(i),
-                              builder: (context, candidatesnapshot) {
-                                if (candidatesnapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else {
-                                  return ListTile(
-                                    title: Text('Name: ' +
-                                        candidatesnapshot.data![0][0]
-                                            .toString()),
-                                    subtitle: Text('Votes: ' +
-                                        candidatesnapshot.data![0][1]
-                                            .toString()),
-                                    trailing: ElevatedButton(
-                                      onPressed: () {
-                                        context
-                                            .read<SilidityLogicCubit>()
-                                            .vote(i);
-                                      },
-                                      child: const Text('Vote'),
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
+                                future: context
+                                    .read<SilidityLogicCubit>()
+                                    .candidateInfo(i),
+                                builder: (context, candidatesnapshot) {
+                                  if (candidatesnapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else {
+                                    return ListTile(
+                                      title: Text('Name: ' +
+                                          candidatesnapshot.data![0][0]
+                                              .toString()),
+                                      subtitle: Text('Votes: ' +
+                                          candidatesnapshot.data![0][1]
+                                              .toString()),
+                                      trailing: ElevatedButton(
+                                          onPressed: () {
+                                            context
+                                                .read<SilidityLogicCubit>()
+                                                .vote(i);
+                                          },
+                                          child: const Text('Vote')),
+                                    );
+                                  }
+                                })
                         ],
                       );
                     }
