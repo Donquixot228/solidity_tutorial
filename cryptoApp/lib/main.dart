@@ -1,12 +1,9 @@
+// @dart=2.3
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solidity_tutorial/cubits/silidity_logic_cubit.dart';
 import 'package:solidity_tutorial/pages%20/home_page/home_page.dart';
-import 'package:solidity_tutorial/services/functions.dart';
-import 'package:web3dart/web3dart.dart';
-import 'package:http/http.dart';
-import 'slider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

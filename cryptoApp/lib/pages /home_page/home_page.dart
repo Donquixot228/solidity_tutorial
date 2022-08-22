@@ -1,21 +1,32 @@
 import 'dart:developer';
 
+import 'package:binance_chain/binance_chain.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:solidity_tutorial/cubits/silidity_logic_cubit.dart';
 import 'package:solidity_tutorial/pages%20/electionInfo/electionInfo_page.dart';
 import 'package:solidity_tutorial/utils/constans.dart';
-import 'package:web3dart/web3dart.dart';
-
 import '../../services/notes_service.dart';
 
-class HomePage extends StatelessWidget {
-  TextEditingController controller = TextEditingController();
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  TextEditingController controller = TextEditingController();
+  var testnetEnv;
+  var httpClient;
+   @override
+   void initState() {
+    // TODO: implement initState
+      testnetEnv = BinanceEnvironment.getTestnetEnv();
+      httpClient = HttpApiClient(env: testnetEnv);
+     super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    context.read<SilidityLogicCubit>().init();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Start Election'),
@@ -25,7 +36,6 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             TextField(
               controller: controller,
               onChanged: (context) {
@@ -44,11 +54,11 @@ class HomePage extends StatelessWidget {
               height: 45,
               child: ElevatedButton(
                 onPressed: () {
-                  context
-                      .read<SilidityLogicCubit>()
-                      .startElection(controller.text);
-
-                  Navigator.push(context, ElectionInfo.route());
+                  // context
+                  //     .read<SilidityLogicCubit>()
+                  //     .startElection(controller.text);
+                  //
+                  // Navigator.push(context, ElectionInfo.route());
                 },
                 child: const Text('Start Election'),
               ),
