@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
+import 'package:solidity_tutorial/cubits/silidity_logic_cubit.dart';
 import 'package:solidity_tutorial/utils/constans.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -11,6 +14,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<SilidityLogicCubit>().init();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Start Election'),
@@ -22,6 +26,9 @@ class HomePage extends StatelessWidget {
           children: [
             TextField(
               controller: controller,
+              onChanged: (context){
+                log(controller.text);
+              },
               decoration: const InputDecoration(
                 filled: true,
                 hintText: 'Enter election name',

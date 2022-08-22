@@ -1,3 +1,5 @@
+
+
 import 'dart:convert';
 import 'dart:developer';
 
@@ -8,7 +10,8 @@ import 'package:http/http.dart' as http;
 
 import '../utils/constans.dart';
 
-class DataContract extends ChangeNotifier {
+
+class DataContract  {
   late ContractAbi _abiCode;
   late EthereumAddress _contractAddress;
   late DeployedContract _deployedContract;
@@ -98,7 +101,6 @@ class DataContract extends ChangeNotifier {
     String funcName,
     List<dynamic> args,
   ) async {
-    await loadContract();
     final ethFunction = _deployedContract.function(funcName);
     final result = _web3client.call(
       contract: _deployedContract,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solidity_tutorial/cubits/silidity_logic_cubit.dart';
 import 'package:solidity_tutorial/pages%20/home_page/home_page.dart';
 import 'package:solidity_tutorial/services/functions.dart';
 import 'package:web3dart/web3dart.dart';
@@ -10,9 +11,13 @@ import 'slider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => DataContract(),
-      child:  MyApp(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => SilidityLogicCubit(),
+        ),
+      ],
+      child: MyApp(),
     ),
   );
 }
@@ -36,7 +41,7 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home:  HomePage(),
+      home: HomePage(),
     );
   }
 }
