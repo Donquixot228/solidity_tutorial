@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import '../utils/constans.dart';
+
 part 'silidity_logic_state.dart';
 
 class SilidityLogicCubit extends Cubit<SilidityLogicState> {
@@ -26,6 +27,7 @@ class SilidityLogicCubit extends Cubit<SilidityLogicState> {
     loadContract();
     log('ss');
   }
+
   Future<void> loadContract() async {
     String abi = await rootBundle.loadString('build/contracts/Election.json');
     var jsonABI = jsonDecode(abi);
@@ -33,10 +35,8 @@ class SilidityLogicCubit extends Cubit<SilidityLogicState> {
     _contractAddress =
         EthereumAddress.fromHex(jsonABI['networks']["5777"]["address"]);
     _deployedContract = DeployedContract(_abiCode, _contractAddress);
-     log('ss');
+    log('ss');
   }
-
-
 
   Future<void> getCredentials(String privateKey) async {
     _creds = EthPrivateKey.fromHex(privateKey);
@@ -73,8 +73,8 @@ class SilidityLogicCubit extends Cubit<SilidityLogicState> {
   }
 
   Future<String> addCandidate(
-      String name,
-      ) async {
+    String name,
+  ) async {
     var response = await callFunction(
       funcName: 'addCandidate',
       args: [name],
@@ -85,8 +85,8 @@ class SilidityLogicCubit extends Cubit<SilidityLogicState> {
   }
 
   Future<String> authorizeVoter(
-      String address,
-      ) async {
+    String address,
+  ) async {
     var response = await callFunction(
       funcName: 'authorizeVoter',
       args: [EthereumAddress.fromHex(address)],
@@ -97,9 +97,9 @@ class SilidityLogicCubit extends Cubit<SilidityLogicState> {
   }
 
   Future<List<dynamic>> ask(
-      String funcName,
-      List<dynamic> args,
-      ) async {
+    String funcName,
+    List<dynamic> args,
+  ) async {
     final ethFunction = _deployedContract.function(funcName);
     final result = _web3client.call(
       contract: _deployedContract,
@@ -126,8 +126,8 @@ class SilidityLogicCubit extends Cubit<SilidityLogicState> {
   }
 
   Future<List> candidateInfo(
-      int index,
-      ) async {
+    int index,
+  ) async {
     List<dynamic> result = await ask(
       'candidateInfo',
       [BigInt.from(index)],
@@ -135,7 +135,9 @@ class SilidityLogicCubit extends Cubit<SilidityLogicState> {
     return result;
   }
 
-  Future<String> vote(int candidateIndex,) async {
+  Future<String> vote(
+    int candidateIndex,
+  ) async {
     var response = await callFunction(
       funcName: "vote",
       args: [BigInt.from(candidateIndex)],
@@ -144,5 +146,4 @@ class SilidityLogicCubit extends Cubit<SilidityLogicState> {
     log("Vote counted successfully");
     return response;
   }
-
 }
