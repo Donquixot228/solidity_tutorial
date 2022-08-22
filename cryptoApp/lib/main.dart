@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: const HomePage(),
+      home:  HomePage(),
     );
   }
 }

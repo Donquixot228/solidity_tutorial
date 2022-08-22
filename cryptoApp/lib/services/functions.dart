@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +26,6 @@ class DataContract extends ChangeNotifier {
       http.Client(),
     );
     loadContract();
-    getCredentials();
   }
 
   Future<void> loadContract() async {
@@ -37,14 +37,16 @@ class DataContract extends ChangeNotifier {
     _deployedContract = DeployedContract(_abiCode, _contractAddress);
   }
 
-  Future<void> getCredentials() async {
-    _creds = EthPrivateKey.fromHex(PrivateKeys.private_key);
+  Future<void> getCredentials(String privateKey) async {
+    _creds = EthPrivateKey.fromHex(privateKey);
   }
 
   Future<String> callFunction({
     required String funcName,
     required List<dynamic> args,
+    required String privateKey,
   }) async {
+    getCredentials(privateKey);
     ethFunction = _deployedContract.function(funcName);
     final result = await _web3client.sendTransaction(
       _creds,
@@ -53,12 +55,92 @@ class DataContract extends ChangeNotifier {
         function: ethFunction,
         parameters: args,
       ),
+      chainId: null,
+      fetchChainIdFromNetworkId: true,
     );
     return result;
   }
 
   Future<String> startElection(String name) async {
-    var response = await callFunction(funcName: 'startElection', args: [name]);
-    return '';
+    var response = await callFunction(
+      funcName: 'startElection',
+      args: [name],
+      privateKey: PrivateKeys.owner_private_key,
+    );
+    return response;
+  }
+
+  Future<String> addCandidate(
+    String name,
+  ) async {
+    var response = await callFunction(
+      funcName: 'addCandidate',
+      args: [name],
+      privateKey: PrivateKeys.owner_private_key,
+    );
+    log('Candidate added successfully');
+    return response;
+  }
+
+  Future<String> authorizeVoter(
+    String address,
+  ) async {
+    var response = await callFunction(
+      funcName: 'authorizeVoter',
+      args: [EthereumAddress.fromHex(address)],
+      privateKey: PrivateKeys.owner_private_key,
+    );
+    log('Voter Authorized successfully');
+    return response;
+  }
+
+  Future<List<dynamic>> ask(
+    String funcName,
+    List<dynamic> args,
+  ) async {
+    await loadContract();
+    final ethFunction = _deployedContract.function(funcName);
+    final result = _web3client.call(
+      contract: _deployedContract,
+      function: ethFunction,
+      params: args,
+    );
+    return result;
+  }
+
+  Future<List> getCandidatesNum() async {
+    List<dynamic> result = await ask(
+      'getNumCandidates',
+      [],
+    );
+    return result;
+  }
+
+  Future<List> getTotalVotes() async {
+    List<dynamic> result = await ask(
+      'getTotalVotes',
+      [],
+    );
+    return result;
+  }
+
+  Future<List> candidateInfo(
+    int index,
+  ) async {
+    List<dynamic> result = await ask(
+      'candidateInfo',
+      [BigInt.from(index)],
+    );
+    return result;
+  }
+
+  Future<String> vote(int candidateIndex, Web3Client ethClient) async {
+    var response = await callFunction(
+      funcName: "vote",
+      args: [BigInt.from(candidateIndex)],
+      privateKey: PrivateKeys.voter_private_key,
+    );
+    log("Vote counted successfully");
+    return response;
   }
 }
