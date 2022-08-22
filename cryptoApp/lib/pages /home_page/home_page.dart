@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:solidity_tutorial/cubits/silidity_logic_cubit.dart';
+import 'package:solidity_tutorial/pages%20/electionInfo/electionInfo_page.dart';
 import 'package:solidity_tutorial/utils/constans.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -26,7 +27,7 @@ class HomePage extends StatelessWidget {
           children: [
             TextField(
               controller: controller,
-              onChanged: (context){
+              onChanged: (context) {
                 log(controller.text);
               },
               decoration: const InputDecoration(
@@ -41,7 +42,13 @@ class HomePage extends StatelessWidget {
               width: double.infinity,
               height: 45,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context
+                      .read<SilidityLogicCubit>()
+                      .startElection(controller.text);
+
+                  Navigator.push(context, ElectionInfo.route());
+                },
                 child: const Text('Start Election'),
               ),
             ),

@@ -1,16 +1,21 @@
 part of 'silidity_logic_cubit.dart';
 
 class SilidityLogicState {
-  late ContractAbi abiCode;
-  late EthereumAddress contractAddress;
-  late DeployedContract deployedContract;
-  late Web3Client web3client;
-  late EthPrivateKey creds;
-  late ContractFunction ethFunction;
+  final String electionName;
 
+  SilidityLogicState({required this.electionName});
 
+  factory SilidityLogicState.initial() {
+    return SilidityLogicState(
+      electionName: '',
+    );
+  }
 
-
-
-
+  SilidityLogicState copyWith({
+    String? electionName,
+  }) {
+    return SilidityLogicState(
+      electionName: electionName ?? this.electionName,
+    );
+  }
 }

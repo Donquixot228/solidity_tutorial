@@ -10,7 +10,7 @@ import '../utils/constans.dart';
 part 'silidity_logic_state.dart';
 
 class SilidityLogicCubit extends Cubit<SilidityLogicState> {
-  SilidityLogicCubit() : super(SilidityLogicState());
+  SilidityLogicCubit() : super(SilidityLogicState.initial());
   late ContractAbi _abiCode;
   late EthereumAddress _contractAddress;
   late DeployedContract _deployedContract;
@@ -63,6 +63,7 @@ class SilidityLogicCubit extends Cubit<SilidityLogicState> {
   }
 
   Future<String> startElection(String name) async {
+    emit(state.copyWith(electionName: name));
     var response = await callFunction(
       funcName: 'startElection',
       args: [name],
@@ -134,7 +135,7 @@ class SilidityLogicCubit extends Cubit<SilidityLogicState> {
     return result;
   }
 
-  Future<String> vote(int candidateIndex, Web3Client ethClient) async {
+  Future<String> vote(int candidateIndex,) async {
     var response = await callFunction(
       funcName: "vote",
       args: [BigInt.from(candidateIndex)],
@@ -143,4 +144,5 @@ class SilidityLogicCubit extends Cubit<SilidityLogicState> {
     log("Vote counted successfully");
     return response;
   }
+
 }
