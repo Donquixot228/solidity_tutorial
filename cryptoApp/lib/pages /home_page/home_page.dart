@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:bip39/bip39.dart' as bip39;
-
 import 'package:binance_chain/binance_chain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
